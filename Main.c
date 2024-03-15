@@ -36,7 +36,7 @@ void getTempData (char *dArr[], float tDataArr[][8], FILE *gloTempData)
 		}
 	}
 }
-
+// hi, this is a test commit
 int main (void)
 {
 	FILE *gloTempData;
