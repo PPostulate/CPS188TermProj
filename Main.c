@@ -36,7 +36,7 @@ void getTempData (char *dArr[], float tDataArr[][8], FILE *gloTempData)
 		}
 	}
 }
-
+// hi
 int main (void)
 {
 	FILE *gloTempData;
