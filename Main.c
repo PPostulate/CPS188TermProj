@@ -5,6 +5,7 @@
 
 // Yo if you see this commit then I am officially a git bash demon. Like  this was probably the most complicated thing that I've ever done
 // This is a massive change can you like work?
+// Some changes here
 void getcTitle (char *cTitleArr[], FILE* gloTempData)
 {
 	char cTitle[300], *token;
