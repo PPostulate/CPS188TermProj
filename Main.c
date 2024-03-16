@@ -14,6 +14,7 @@ void getcTitle (char *cTitleArr[], FILE* gloTempData)
 	for (short i = 0; token != NULL; i++)
 	{
 		cTitleArr[i] = token;
+		printf("%s\n", cTitleArr[i]);
 		token = strtok (NULL, ",");
 	}
 }
@@ -30,10 +31,12 @@ void getTempData (char *dArr[], float tDataArr[][8], FILE *gloTempData)
 			{
 				case 0:
 					dArr[i] = token;
+					printf("%s\n", dArr[i]);
 					token = strtok (NULL, ",");
 				
 				default:
 					tDataArr[i][j] = atof(token);
+					printf("%f\n", tDataArr[i][j]);
 					token = strtok (NULL, ",");
 			}
 		}
