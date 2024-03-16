@@ -1,8 +1,6 @@
 #include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
 #include <string.h>
-
+#include <math.h>
 // Yo if you see this commit then I am officially a git bash demon. Like  this was probably the most complicated thing that I've ever done
 // This is a massive change can you like work?
 // Some changes here
@@ -32,13 +30,15 @@ void getTempData (char *dArr[], float tDataArr[][8], FILE *gloTempData)
 				case 0:
 					dArr[i] = token;
 					printf("%s\n", dArr[i]);
-					token = strtok (NULL, ",");
+					break;
 				
 				default:
-					tDataArr[i][j] = atof(token);
-					printf("%f\n", tDataArr[i][j]);
-					token = strtok (NULL, ",");
+					tDataArr[i][j-1] = atof(token);
+					printf("%f\n", tDataArr[i][j-1]);
+					break;
+					
 			}
+			token = strtok (NULL, ",");
 		}
 	}
 }
@@ -60,6 +60,11 @@ int main (void)
 	
 	getcTitle(cTitleArr, gloTempData);
 	getTempData(dArr, tDataArr, gloTempData);
+	//for (short i = 0; i < 3200; i++)
+	//{
+		//printf("%s\n", dArr[i]);
+	//}
+	
 	
 	fclose(gloTempData);
 	
