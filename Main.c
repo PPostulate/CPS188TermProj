@@ -33,7 +33,7 @@ void getTempData (char *dArr[], char dArrStor[][11], float tDataArr[][8], FILE *
 					{
 						dArrStor[i][k] = *(token + k);
 					}
-					dArrStor[i][11] = '\0';
+					dArrStor[i][10] = '\0';
 					dArr[i] = &dArrStor[i][0];
 					//fprintf(out, "%s\n", dArr[i]);
 					break;
