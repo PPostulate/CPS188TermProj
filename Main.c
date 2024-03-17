@@ -18,7 +18,7 @@ void getcTitle (char *cTitleArr[], FILE* gloTempData, char *token, FILE *out)
 }
 
 
-void getTempData (char *dArr[], char dArrStor[][10], float tDataArr[][8], FILE *gloTempData, char *token, FILE *out)
+void getTempData (char *dArr[], char dArrStor[][11], float tDataArr[][8], FILE *gloTempData, char *token, FILE *out)
 {
 	char line[200];
 	for (short i = 0; fgets(line, 200, gloTempData); i++)
@@ -33,13 +33,13 @@ void getTempData (char *dArr[], char dArrStor[][10], float tDataArr[][8], FILE *
 					{
 						dArrStor[i][k] = *(token + k);
 					}
-					//dArr[i] = &dArrStor[i][0];
+					dArrStor[i][11] = '\0';
+					dArr[i] = &dArrStor[i][0];
 					//fprintf(out, "%s\n", dArr[i]);
 					break;
 				
 				default:
 					tDataArr[i][j-1] = atof(token);
-					//fprintf(out, "i:%hd j:%hd val:%f\n", i, j-1, tDataArr[i][j-1]);
 					break;
 					
 			}
@@ -63,17 +63,13 @@ int main (void)
 	/* dArr contains the date column of the spreadsheet. The dates are
 	 * preserved as strings. cTitleArr contains the column titles. The
 	 * titles are stored as strings.*/ 
-	char dArrStor[3200][10], *dArr[3200], *cTitleArr[9];
+	char dArrStor[3200][11], *dArr[3200], *cTitleArr[9];
 	
 	getcTitle(cTitleArr, gloTempData, token, out);
 	getTempData(dArr, dArrStor, tDataArr, gloTempData, token, out);
 	for (short i = 0; i < 3200; i++)
 	{
-		for (short k = 0; k <10; k++)
-		{
-		fprintf(out, "%c", dArrStor[i][k]);
-		}
-		fprintf(out, "\n");
+		fprintf(out, "%s\n", dArr[i]);
 	}
 	
 	
