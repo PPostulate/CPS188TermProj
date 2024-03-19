@@ -41,7 +41,41 @@ void getTempData (char dArrStor[][11], float tDataArr[][8], FILE *gloTempData, c
 		}
 	}
 }
-// hi, this is a test commit
+
+
+//Question 1
+// Finds the average land temperatures between 1760 to 2015
+void Question1_LandAverageTemperatures(float TemperatureData[][8]){
+	// Note: Start is 120
+
+	double AverageYearlyTemperature = 0.0;
+	int CurrentYear = 1759;
+	int MonthsElapsed = 0; 
+	for(int rows = 120; rows < 3200; rows++){
+		
+		double CurrentTemperature = TemperatureData[rows][0];
+
+		// Adds the current temperature and sums it up
+		AverageYearlyTemperature += CurrentTemperature;
+		MonthsElapsed += 1; 
+
+		// Every 12 months
+		if(MonthsElapsed % 12 == 0){
+			
+			
+			CurrentYear += 1; 
+			AverageYearlyTemperature /= 12.0;
+
+			// Outputs the results
+			printf("%lf\n",AverageYearlyTemperature);
+
+			// Reset
+			AverageYearlyTemperature = 0.0;
+		}
+	} 
+}
+
+
 int main (void)
 {
 	FILE *gloTempData;
@@ -52,6 +86,8 @@ int main (void)
 	 * floats. The array is two dimensional; [row#][column#]. Note that
 	 * the row # in the array doesn't match the spreadsheet row #.*/
 	char *token = "thing";
+
+	// Temperature data array 
 	float tDataArr[3200][8];
 	
 	/* dArr contains the date column of the spreadsheet. The dates are
@@ -65,6 +101,11 @@ int main (void)
 	{
 		fprintf(out, "%s\n", &dArrStor[i][0]);
 	}
+	
+
+	// Question 1
+	Question1_LandAverageTemperatures(tDataArr); 
+	
 	
 	
 	fclose(gloTempData);
