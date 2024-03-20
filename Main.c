@@ -1,9 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <math.h>
-// Yo if you see this commit then I am officially a git bash demon. Like  this was probably the most complicated thing that I've ever done
-// This is a massive change can you like work?
-// Some changes here
+
 void getcTitle (char *cTitleArr[], FILE* gloTempData, char *token, FILE *out)
 {
 	char cTitle[300];
@@ -45,7 +44,7 @@ void getTempData (char dArrStor[][11], float tDataArr[][8], FILE *gloTempData, c
 
 //Question 1
 // Finds the average land temperatures between 1760 to 2015
-void Question1_LandAverageTemperatures(float TemperatureData[][8]){
+void Question1_LandAverageTemperatures(float TemperatureDatas[][8]){
 	// Note: Start is 120
 
 	double AverageYearlyTemperature = 0.0;
@@ -53,7 +52,7 @@ void Question1_LandAverageTemperatures(float TemperatureData[][8]){
 	int MonthsElapsed = 0; 
 	for(int rows = 120; rows < 3200; rows++){
 		
-		double CurrentTemperature = TemperatureData[rows][0];
+		double CurrentTemperature = TemperatureDatas[rows][0];
 
 		// Adds the current temperature and sums it up
 		AverageYearlyTemperature += CurrentTemperature;
@@ -76,6 +75,36 @@ void Question1_LandAverageTemperatures(float TemperatureData[][8]){
 }
 
 
+//Question 2 
+// Finds the average temperature for the different centuries
+double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], float Date[][11], char* StartYear, char* EndYear){
+	double AverageYearlyTemperature = 0.0;
+	int MonthsElapsed = 0;
+	int StartCount = 0; 
+
+	for(int rows = 0; rows < 3200; rows++){
+		
+		if(strncmp(Date[rows],StartYear,4) == 0){
+			StartCount = 1;
+		}
+
+		// Checks if the current year is still the same and it adds the temperature for that year 
+		if((strncmp(Date[rows],EndYear,4) != 0) && StartCount == 1){
+			MonthsElapsed++; 
+			AverageYearlyTemperature += TemperatureData[rows][0];
+		}
+		else if(strncmp(Date[rows],EndYear,4) == 0 && StartCount == 1){
+			// Stops the loop 
+			break; 
+		}
+	} 
+
+
+	// Returns the average 
+	return AverageYearlyTemperature/MonthsElapsed;
+
+}
+
 int main (void)
 {
 	FILE *gloTempData;
@@ -88,25 +117,26 @@ int main (void)
 	char *token = "thing";
 
 	// Temperature data array 
-	float tDataArr[3200][8];
+	float TemperatureData[3200][8];
 	
 	/* dArr contains the date column of the spreadsheet. The dates are
 	 * preserved as strings. cTitleArr contains the column titles. The
 	 * titles are stored as strings.*/ 
-	char dArrStor[3200][11], *cTitleArr[9];
+	char Dates[3200][11], *cTitleArr[9];
 	
 	getcTitle(cTitleArr, gloTempData, token, out);
-	getTempData(dArrStor, tDataArr, gloTempData, token, out);
+	getTempData(Dates, TemperatureData, gloTempData, token, out);
 	for (short i = 0; i < 3200; i++)
 	{
-		fprintf(out, "%s\n", &dArrStor[i][0]);
+		fprintf(out, "%s\n", &Dates[i][0]);
 	}
-	
 
 	// Question 1
-	Question1_LandAverageTemperatures(tDataArr); 
-	
-	
+	//Question1_LandAverageTemperatures(TemperatureData); 
+
+
+	double Temperatures = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1799");
+	printf("%lf\n",Temperatures); 
 	
 	fclose(gloTempData);
 	
