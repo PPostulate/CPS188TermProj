@@ -112,6 +112,9 @@ double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], cha
 
 }
 
+
+
+
 int main (void)
 {
 	FILE *gloTempData;
@@ -149,7 +152,7 @@ int main (void)
 	printf("%lf\n",Temperatures1800);
 
 	double Temperatures1900 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1900","2000");
-	printf("%lf\n",Temperatures1900);
+	 printf("%lf\n",Temperatures1900);
 
 	double Temperatures2000 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"2000","2016");
 	printf("%lf\n",Temperatures2000);
