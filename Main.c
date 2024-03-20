@@ -113,7 +113,46 @@ double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], cha
 }
 
 
+//Question 3 
+/**
+ * Calculates the average temperature for each month between 1900 and 2015
+ * Ok idk how to do this one
+*/
+void Question3_CalculateMonthlyAverageTemperatures(float TemperatureData[][8], char Date[][11]){
+	
+	
+}
 
+
+//Question 4
+/**
+ * Finds the hottest month and the coldest month in an given year
+*/
+void Question4_FindHottestAndColdestMonth(float TemperatureData[][8], char Date[][11]){
+
+	char HottestDate[11];
+	double HottestTemperature = 0.0;
+
+	char ColdestDate[11];
+	double ColdestTemperature = 0.0;
+
+	// Goes through the entire temperature data per month and finds the hottest and coldest month
+	for(int i = 0; i < 3192; i++){
+		if(TemperatureData[i][0] > HottestTemperature){
+			HottestTemperature = TemperatureData[i][0];
+			strncpy(HottestDate,Date[i],11);
+		}
+		else if(TemperatureData[i][0] < ColdestTemperature){
+			ColdestTemperature = TemperatureData[i][0];
+			strncpy(ColdestDate,Date[i],11);
+		}
+	}
+
+	// Outputs the results
+	printf("Hottest Month: %s | %lf\n",HottestDate,HottestTemperature);
+	printf("Coldest Month: %s | %lf\n",ColdestDate,ColdestTemperature);
+
+}
 
 int main (void)
 {
@@ -145,17 +184,25 @@ int main (void)
 	//Question1_LandAverageTemperatures(TemperatureData); 
 
 	// Question 2
-	double Temperatures1760 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
-	printf("%lf\n",Temperatures1760); 
+	// double Temperatures1760 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
+	// printf("%lf\n",Temperatures1760); 
 
-	double Temperatures1800 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1800","1900");
-	printf("%lf\n",Temperatures1800);
+	// double Temperatures1800 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1800","1900");
+	// printf("%lf\n",Temperatures1800);
 
-	double Temperatures1900 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1900","2000");
-	 printf("%lf\n",Temperatures1900);
+	// double Temperatures1900 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1900","2000");
+	//  printf("%lf\n",Temperatures1900);
 
-	double Temperatures2000 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"2000","2016");
-	printf("%lf\n",Temperatures2000);
+	// double Temperatures2000 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"2000","2016");
+	// printf("%lf\n",Temperatures2000);
+
+
+	// Question 3
+	//Question3_CalculateMonthlyAverageTemperatures(TemperatureData,Dates);
+
+
+	// Question 4
+	Question4_FindHottestAndColdestMonth(TemperatureData,Dates);
 
 	fclose(gloTempData);
 	
