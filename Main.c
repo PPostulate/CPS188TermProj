@@ -15,7 +15,7 @@ void getcTitle (char *cTitleArr[], FILE* gloTempData, char *token, FILE *out)
 		token = strtok (NULL, ",");
 	}
 }
-
+// This is a test commit
 void getTempData (char dArrStor[][11], float tDataArr[][8], FILE *gloTempData, char *token, FILE *out)
 {
 	char line[200];
