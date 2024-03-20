@@ -88,7 +88,7 @@ double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], cha
 	int MonthsElapsed = 0;
 	int StartCount = 0; 
 
-	for(int rows = 0; rows < 3200; rows++){
+	for(int rows = 0; rows < 3192; rows++){
 		
 		if(strncmp(Date[rows],StartYear,4) == 0){
 			StartCount = 1;
@@ -96,9 +96,8 @@ double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], cha
 
 		// Checks if the current year is still the same and it adds the temperature for that year 
 		if((strncmp(Date[rows],EndYear,4) != 0) && StartCount == 1){
+			//printf("%s | %d\n",Date[rows],rows);
 			MonthsElapsed++; 
-
-			printf("%s\n",Date[rows]);
 			AverageYearlyTemperature += TemperatureData[rows][0];
 		}
 		else if(strncmp(Date[rows],EndYear,4) == 0 && StartCount == 1){
@@ -142,10 +141,19 @@ int main (void)
 	// Question 1
 	//Question1_LandAverageTemperatures(TemperatureData); 
 
+	// Question 2
+	double Temperatures1760 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
+	printf("%lf\n",Temperatures1760); 
 
-	double Temperatures = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
-	printf("%lf\n",Temperatures); 
-	
+	double Temperatures1800 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1800","1900");
+	printf("%lf\n",Temperatures1800);
+
+	double Temperatures1900 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1900","2000");
+	printf("%lf\n",Temperatures1900);
+
+	double Temperatures2000 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"2000","2016");
+	printf("%lf\n",Temperatures2000);
+
 	fclose(gloTempData);
 	
 	return (0);
