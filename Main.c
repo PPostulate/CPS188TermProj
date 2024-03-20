@@ -76,7 +76,13 @@ void Question1_LandAverageTemperatures(float TemperatureDatas[][8]){
 
 
 //Question 2 
-// Finds the average temperature for the different centuries
+/**
+ * Calculates the average temperature between two seperate start and end years 
+ * @param TemperatureData The temperature data array 
+ * @param Date The date array
+ * @param StartYear The start year [inclusive]
+ * @param EndYear The end year [exclusive]
+*/
 double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], char Date[][11], char* StartYear, char* EndYear){
 	double AverageYearlyTemperature = 0.0;
 	int MonthsElapsed = 0;
@@ -91,6 +97,8 @@ double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], cha
 		// Checks if the current year is still the same and it adds the temperature for that year 
 		if((strncmp(Date[rows],EndYear,4) != 0) && StartCount == 1){
 			MonthsElapsed++; 
+
+			printf("%s\n",Date[rows]);
 			AverageYearlyTemperature += TemperatureData[rows][0];
 		}
 		else if(strncmp(Date[rows],EndYear,4) == 0 && StartCount == 1){
@@ -128,14 +136,14 @@ int main (void)
 	getTempData(Dates, TemperatureData, gloTempData, token, out);
 	for (short i = 0; i < 3200; i++)
 	{
-		fprintf(out, "%s\n", &Dates[i][0]);
+		//fprintf(out, "%s\n", &Dates[i][0]);
 	}
 
 	// Question 1
 	//Question1_LandAverageTemperatures(TemperatureData); 
 
 
-	double Temperatures = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1799");
+	double Temperatures = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
 	printf("%lf\n",Temperatures); 
 	
 	fclose(gloTempData);
