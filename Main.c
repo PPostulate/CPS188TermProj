@@ -77,7 +77,7 @@ void Question1_LandAverageTemperatures(float TemperatureDatas[][8]){
 
 //Question 2 
 // Finds the average temperature for the different centuries
-double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], float Date[][11], char* StartYear, char* EndYear){
+double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], char Date[][11], char* StartYear, char* EndYear){
 	double AverageYearlyTemperature = 0.0;
 	int MonthsElapsed = 0;
 	int StartCount = 0; 
