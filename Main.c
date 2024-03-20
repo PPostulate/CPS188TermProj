@@ -154,8 +154,6 @@ void Question4_FindHottestAndColdestMonth(float TemperatureData[][8], char Date[
 
 }
 
-//dfgsgdfgdf
-
 int main (void)
 {
 	FILE *gloTempData;
