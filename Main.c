@@ -116,7 +116,7 @@ double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], cha
 //Question 3 
 /**
  * Calculates the average temperature for each month between 1900 and 2015
- * Ok idk how to do this one
+ *
 */
 void Question3_CalculateMonthlyAverageTemperatures(float TemperatureData[][8], char Date[][11]){
 	
