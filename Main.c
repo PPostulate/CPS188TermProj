@@ -115,11 +115,31 @@ double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], cha
 
 //Question 3 
 /**
- * Calculates the average temperature for each month between 1900 and 2015
+ * Calculates the average temperature per month from 1900 to 2015
  *
 */
 void Question3_CalculateMonthlyAverageTemperatures(float TemperatureData[][8], char Date[][11]){
-	
+	// 1800 = 1900
+	// Loops through the temperature data from 1900 to 2015
+	double MonthlySum = 0.0; 
+
+	for(int Counter = 1800; Counter < 3192; Counter += 1){
+
+		if(Counter % 12 != 0){
+			float CurrentTemperature = TemperatureData[Counter][0];
+			MonthlySum += CurrentTemperature;
+
+			//printf("Current Temperature: %f\n",CurrentTemperature);
+		}else{
+			// Calculates the average 
+			MonthlySum /= 12.0;
+
+			// Outputs the results
+			printf("Month: %s | Average: %lf\n",Date[Counter],MonthlySum);
+		}
+	}
+
+	printf("%f\n",TemperatureData[1800][0]);
 	
 }
 
@@ -198,11 +218,11 @@ int main (void)
 
 
 	// Question 3
-	//Question3_CalculateMonthlyAverageTemperatures(TemperatureData,Dates);
+	Question3_CalculateMonthlyAverageTemperatures(TemperatureData,Dates);
 
 
 	// Question 4
-	Question4_FindHottestAndColdestMonth(TemperatureData,Dates);
+	//Question4_FindHottestAndColdestMonth(TemperatureData,Dates);
 
 	fclose(gloTempData);
 	
