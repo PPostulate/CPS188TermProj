@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#define DataLen 3192
+
 
 void getcTitle (char *cTitleArr[], FILE* gloTempData, char *token, FILE *out)
 {
@@ -116,10 +118,59 @@ double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], cha
 //Question 3 
 /**
  * Calculates the average temperature for each month between 1900 and 2015
- * Ok idk how to do this one
 */
-void Question3_CalculateMonthlyAverageTemperatures(float TemperatureData[][8], char Date[][11]){
-	
+void Question3_CalculateMonthlyAverageTemperatures(float TemperatureData[][8], float monthAvgTemp[12]) {
+	//printf("%f\n", TemperatureData[3199][0]);
+	for (short i = 0; i < 1392; i++)
+	{
+		switch (i % 12)
+			{
+			case 1:
+				monthAvgTemp[0] += TemperatureData[1800 + i][0];
+				break;
+			case 2:
+				monthAvgTemp[1] += TemperatureData[1800 + i][0];
+				break;
+			case 3:
+				monthAvgTemp[2] += TemperatureData[1800 + i][0];
+				break;
+			case 4:
+				monthAvgTemp[3] += TemperatureData[1800 + i][0];
+				break;
+			case 5:
+				monthAvgTemp[4] += TemperatureData[1800 + i][0];
+				break;
+			case 6:
+				monthAvgTemp[5] += TemperatureData[1800 + i][0];
+				break;
+			case 7:
+				monthAvgTemp[6] += TemperatureData[1800 + i][0];
+				break;
+			case 8:
+				monthAvgTemp[7] += TemperatureData[1800 + i][0];
+				break;
+			case 9:
+				monthAvgTemp[8] += TemperatureData[1800 + i][0];
+				break;
+			case 10:
+				monthAvgTemp[9] += TemperatureData[1800 + i][0];
+				break;
+			case 11:
+				monthAvgTemp[10] += TemperatureData[1800 + i][0];
+				break;
+			case 0:
+				monthAvgTemp[11] += TemperatureData[1800 + i][0];
+				break;
+			default:
+				printf("Switch goofed");
+				break;
+			}
+	}
+	for (short j = 0; j < 12; j++)
+	{
+		monthAvgTemp[j] = monthAvgTemp[j] / 116;
+		//printf("%f\n", monthAvgTemp[j]);
+	}
 	
 }
 
@@ -137,7 +188,7 @@ void Question4_FindHottestAndColdestMonth(float TemperatureData[][8], char Date[
 	double ColdestTemperature = 0.0;
 
 	// Goes through the entire temperature data per month and finds the hottest and coldest month
-	for(int i = 0; i < 3192; i++){
+	for(int i = 0; i < DataLen; i++){
 		if(TemperatureData[i][0] > HottestTemperature){
 			HottestTemperature = TemperatureData[i][0];
 			strncpy(HottestDate,Date[i],11);
@@ -189,7 +240,9 @@ int main (void)
 	char *token = "thing";
 
 	// Temperature data array 
-	float TemperatureData[3200][8];
+	float TemperatureData[DataLen][8];
+	
+	float monthAvgTemp[12] = { 0 };
 	
 	/* dArr contains the date column of the spreadsheet. The dates are
 	 * preserved as strings. cTitleArr contains the column titles. The
@@ -221,7 +274,7 @@ int main (void)
 
 
 	// Question 3
-	//Question3_CalculateMonthlyAverageTemperatures(TemperatureData,Dates);
+	Question3_CalculateMonthlyAverageTemperatures(TemperatureData, monthAvgTemp);
 
 
 	// Question 4 + Question 5
@@ -229,7 +282,7 @@ int main (void)
 
 
 	//Question 6
-	Question6_GenerateGNUPlotFromData(TemperatureData,Dates);
+	//Question6_GenerateGNUPlotFromData(TemperatureData,Dates);
 
 	fclose(gloTempData);
 	
