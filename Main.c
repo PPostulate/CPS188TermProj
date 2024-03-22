@@ -46,7 +46,7 @@ void getTempData (char dArrStor[][11], float tDataArr[][8], FILE *gloTempData, c
 
 //Question 1
 // Finds the average land temperatures between 1760 to 2015
-void Question1_LandAverageTemperatures(float TemperatureDatas[][8],double *DataOut){
+void Question1_LandAverageTemperatures(float TemperatureDatas[][8],char Date[][11],double *DataOut){
 	// Note: Start is 120
 
 	double AverageYearlyTemperature = 0.0;
@@ -69,7 +69,7 @@ void Question1_LandAverageTemperatures(float TemperatureDatas[][8],double *DataO
 			AverageYearlyTemperature /= 12.0;
 
 			// Outputs the results
-			//printf("%lf\n",AverageYearlyTemperature);
+			printf("%s %lf\n",Date[rows],AverageYearlyTemperature);
 			DataOut[LengthOfDataOut] = AverageYearlyTemperature;
 
 			// Increments the length of the data out
@@ -79,6 +79,7 @@ void Question1_LandAverageTemperatures(float TemperatureDatas[][8],double *DataO
 			AverageYearlyTemperature = 0.0;
 		}
 	} 
+
 }
 
 
@@ -217,17 +218,16 @@ void Question4_FindHottestAndColdestMonth(float TemperatureData[][8], char Date[
 /**
  * Generates the GNUPlot for the data in the 
 */
-void Question6_GenerateGNUPlotFromData(float TemperatureData[][8], char Date[][11]){
-	double CalculatedTemperatureData[3196]; 
-
-	Question1_LandAverageTemperatures(TemperatureData,CalculatedTemperatureData);
-
+void Question6_GenerateGNUPlotFromData(float TemperatureData[][8], char Date[][11], double* AverageTemperatures){
 	// Outputs the data to a file
 	FILE *GNUPlotData = fopen("GNUPlotData.txt","w");
-
-	for(int i = 0; i < 3196; i++){
+	int CurrentIndex = 0; 
+	for(int i = 120; i < 3195; i++){
 		//printf("%lf\n",CalculatedTemperatureData[i]);
-		fprintf(GNUPlotData,"%s %lf\n",Date[i],CalculatedTemperatureData[i]);
+		if(i % 12 == 0 && Date[i][0] != '\0'){
+			fprintf(GNUPlotData,"%s %lf\n",Date[i + 11],AverageTemperatures[CurrentIndex]);
+			CurrentIndex += 1;
+		}
 	}
 
 	fclose(GNUPlotData);
@@ -264,7 +264,7 @@ int main (void)
 
 	// Question 1
 	double LandAverageTemperatures[256];
-	Question1_LandAverageTemperatures(TemperatureData,LandAverageTemperatures); 
+	Question1_LandAverageTemperatures(TemperatureData,Dates,LandAverageTemperatures); 
 
 	// Question 2
 	// double Temperatures1760 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
@@ -279,7 +279,6 @@ int main (void)
 	// double Temperatures2000 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"2000","2016");
 	// printf("%lf\n",Temperatures2000);
 
-
 	// Question 3
 	Question3_CalculateMonthlyAverageTemperatures(TemperatureData, monthAvgTemp);
 
@@ -289,7 +288,7 @@ int main (void)
 
 
 	//Question 6
-	//Question6_GenerateGNUPlotFromData(TemperatureData,Dates);
+	Question6_GenerateGNUPlotFromData(TemperatureData,Dates,LandAverageTemperatures);
 
 	fclose(gloTempData);
 	
