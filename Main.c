@@ -66,7 +66,7 @@ void Question1_LandAverageTemperatures(float TemperatureDatas[][8],double *DataO
 			AverageYearlyTemperature /= 12.0;
 
 			// Outputs the results
-			printf("%lf\n",AverageYearlyTemperature);
+			//printf("%lf\n",AverageYearlyTemperature);
 
 			// Reset
 			AverageYearlyTemperature = 0.0;
