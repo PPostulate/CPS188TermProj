@@ -15,7 +15,7 @@ void getcTitle (char *cTitleArr[], FILE* gloTempData, char *token, FILE *out)
 		token = strtok (NULL, ",");
 	}
 }
-// This is a test commit
+
 void getTempData (char dArrStor[][11], float tDataArr[][8], FILE *gloTempData, char *token, FILE *out)
 {
 	char line[200];
@@ -44,7 +44,7 @@ void getTempData (char dArrStor[][11], float tDataArr[][8], FILE *gloTempData, c
 
 //Question 1
 // Finds the average land temperatures between 1760 to 2015
-void Question1_LandAverageTemperatures(float TemperatureDatas[][8]){
+void Question1_LandAverageTemperatures(float TemperatureDatas[][8],double *DataOut){
 	// Note: Start is 120
 
 	double AverageYearlyTemperature = 0.0;
@@ -115,36 +115,16 @@ double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], cha
 
 //Question 3 
 /**
- * Calculates the average temperature per month from 1900 to 2015
- *
+ * Calculates the average temperature for each month between 1900 and 2015
+ * Ok idk how to do this one
 */
 void Question3_CalculateMonthlyAverageTemperatures(float TemperatureData[][8], char Date[][11]){
-	// 1800 = 1900
-	// Loops through the temperature data from 1900 to 2015
-	double MonthlySum = 0.0; 
-
-	for(int Counter = 1800; Counter < 3192; Counter += 1){
-
-		if(Counter % 12 != 0){
-			float CurrentTemperature = TemperatureData[Counter][0];
-			MonthlySum += CurrentTemperature;
-
-			//printf("Current Temperature: %f\n",CurrentTemperature);
-		}else{
-			// Calculates the average 
-			MonthlySum /= 12.0;
-
-			// Outputs the results
-			printf("Month: %s | Average: %lf\n",Date[Counter],MonthlySum);
-		}
-	}
-
-	printf("%f\n",TemperatureData[1800][0]);
+	
 	
 }
 
 
-//Question 4
+//Question 4 + Question 5
 /**
  * Finds the hottest month and the coldest month in an given year
 */
@@ -169,10 +149,33 @@ void Question4_FindHottestAndColdestMonth(float TemperatureData[][8], char Date[
 	}
 
 	// Outputs the results
+
+	// Question 5
 	printf("Hottest Month: %s | %lf\n",HottestDate,HottestTemperature);
 	printf("Coldest Month: %s | %lf\n",ColdestDate,ColdestTemperature);
 
 }
+
+
+// Question 6 
+/**
+ * Generates the GNUPlot for the data in the 
+*/
+void Question6_GenerateGNUPlotFromData(float TemperatureData[][8], char Date[][11]){
+	double CalculatedTemperatureData[3196]; 
+
+	Question1_LandAverageTemperatures(TemperatureData,CalculatedTemperatureData);
+
+	// Outputs the data to a file
+	FILE *GNUPlotData = fopen("GNUPlotData.txt","w");
+
+	for(int i = 0; i < 3196; i++){
+		fprintf(GNUPlotData,"%s %lf\n",Date[i],CalculatedTemperatureData[i]);
+	}
+
+	fclose(GNUPlotData);
+}
+
 
 int main (void)
 {
@@ -218,11 +221,15 @@ int main (void)
 
 
 	// Question 3
-	Question3_CalculateMonthlyAverageTemperatures(TemperatureData,Dates);
+	//Question3_CalculateMonthlyAverageTemperatures(TemperatureData,Dates);
 
 
-	// Question 4
+	// Question 4 + Question 5
 	//Question4_FindHottestAndColdestMonth(TemperatureData,Dates);
+
+
+	//Question 6
+	Question6_GenerateGNUPlotFromData(TemperatureData,Dates);
 
 	fclose(gloTempData);
 	
