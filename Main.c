@@ -48,9 +48,11 @@ void Question1_LandAverageTemperatures(float TemperatureDatas[][8],double *DataO
 	// Note: Start is 120
 
 	double AverageYearlyTemperature = 0.0;
+	int LengthOfDataOut = 0; 
 	int CurrentYear = 1759;
 	int MonthsElapsed = 0; 
-	for(int rows = 120; rows < 3200; rows++){
+
+	for(int rows = 120; rows < 3196; rows++){
 		
 		double CurrentTemperature = TemperatureDatas[rows][0];
 
@@ -61,12 +63,15 @@ void Question1_LandAverageTemperatures(float TemperatureDatas[][8],double *DataO
 		// Every 12 months
 		if(MonthsElapsed % 12 == 0){
 			
-			
 			CurrentYear += 1; 
 			AverageYearlyTemperature /= 12.0;
 
 			// Outputs the results
 			printf("%lf\n",AverageYearlyTemperature);
+			DataOut[LengthOfDataOut] = AverageYearlyTemperature;
+
+			// Increments the length of the data out
+			LengthOfDataOut += 1;
 
 			// Reset
 			AverageYearlyTemperature = 0.0;
@@ -124,7 +129,7 @@ void Question3_CalculateMonthlyAverageTemperatures(float TemperatureData[][8], c
 }
 
 
-//Question 4 + Question 5
+// Question 4 + Question 5
 /**
  * Finds the hottest month and the coldest month in an given year
 */
@@ -170,6 +175,7 @@ void Question6_GenerateGNUPlotFromData(float TemperatureData[][8], char Date[][1
 	FILE *GNUPlotData = fopen("GNUPlotData.txt","w");
 
 	for(int i = 0; i < 3196; i++){
+		//printf("%lf\n",CalculatedTemperatureData[i]);
 		fprintf(GNUPlotData,"%s %lf\n",Date[i],CalculatedTemperatureData[i]);
 	}
 
@@ -204,7 +210,8 @@ int main (void)
 	}
 
 	// Question 1
-	//Question1_LandAverageTemperatures(TemperatureData); 
+	double LandAverageTemperatures[256];
+	Question1_LandAverageTemperatures(TemperatureData,LandAverageTemperatures); 
 
 	// Question 2
 	// double Temperatures1760 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
