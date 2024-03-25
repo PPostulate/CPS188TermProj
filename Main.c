@@ -69,7 +69,7 @@ void Question1_LandAverageTemperatures(float TemperatureDatas[][8],char Date[][1
 			AverageYearlyTemperature /= 12.0;
 
 			// Outputs the results
-			printf("%s %lf\n",Date[rows],AverageYearlyTemperature);
+			printf("%d %s %lf\n",LengthOfDataOut,Date[rows],AverageYearlyTemperature);
 			DataOut[LengthOfDataOut] = AverageYearlyTemperature;
 
 			// Increments the length of the data out
@@ -234,6 +234,17 @@ void Question6_GenerateGNUPlotFromData(float TemperatureData[][8], char Date[][1
 }
 
 
+//Question 7 
+/**
+ * Generates the GNUPlot data for the land average temperatures for the 19th and 20th century
+*/
+
+void Question7_PlotTemperaturesFrom19To20Century(double LandAverageTemperatures[]){
+	// Loops through the land average temperatures from the 19th and 20th century 
+	printf("%lf",LandAverageTemperatures[40]);
+
+}
+
 int main (void)
 {
 	FILE *gloTempData;
@@ -280,7 +291,7 @@ int main (void)
 	// printf("%lf\n",Temperatures2000);
 
 	// Question 3
-	Question3_CalculateMonthlyAverageTemperatures(TemperatureData, monthAvgTemp);
+	//Question3_CalculateMonthlyAverageTemperatures(TemperatureData, monthAvgTemp);
 
 
 	// Question 4 + Question 5
@@ -288,7 +299,11 @@ int main (void)
 
 
 	//Question 6
-	Question6_GenerateGNUPlotFromData(TemperatureData,Dates,LandAverageTemperatures);
+	//Question6_GenerateGNUPlotFromData(TemperatureData,Dates,LandAverageTemperatures);
+
+	// Question 7
+	Question7_PlotTemperaturesFrom19To20Century(LandAverageTemperatures);
+
 
 	fclose(gloTempData);
 	
