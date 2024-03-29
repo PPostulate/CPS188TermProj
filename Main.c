@@ -246,8 +246,11 @@ void Question7_PlotTemperaturesFrom19To20Century(double LandAverageTemperatures[
 
 //Question 8
 void Q8AverageTemp(float tDataArr[][8]) {
-	float avgTempArr[165] = { 0 }, avgMaxTemp[165] = { 0 }, avgMinTemp[165] = { 0 };
-	for (short i = 0; i < 165; i++)
+	FILE* q8plot;
+	q8plot = fopen("q8output.txt", "w");	
+	float avgTempArr[166] = { 0 }, avgMaxTemp[166] = { 0 }, avgMinTemp[166] = { 0 };
+	
+	for (short i = 0; i <= 165; i++)
 	{
 		for (short j = 0; j < 12; j++)
 		{
@@ -258,9 +261,12 @@ void Q8AverageTemp(float tDataArr[][8]) {
 		avgTempArr[i] /= 12;
 		avgMaxTemp[i] /= 12;
 		avgMinTemp[i] /= 12;
-		printf("%-20f%-20f%f\n", avgTempArr[i], avgMaxTemp[i], avgMinTemp[i]);
+		fprintf(q8plot, "%-8hd%-20f%-20f%f\n", 1850 + i, avgTempArr[i], avgMaxTemp[i], avgMinTemp[i]);
 	}
+	fclose(q8plot);
 }
+
+//Question 9
 
 int main (void)
 {
@@ -324,6 +330,9 @@ int main (void)
 
 	//Question 8
 	Q8AverageTemp(TemperatureData);
+
+	//Question 9
+	
 
 	fclose(gloTempData);
 	
