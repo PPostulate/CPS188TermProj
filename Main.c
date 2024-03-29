@@ -255,7 +255,7 @@ void Q8AverageTemp(float tDataArr[][8]) {
 		{
 			avgTempArr[i] += tDataArr[1200 + 12 * i + j][0];
 			avgMaxTemp[i] += tDataArr[1200 + 12 * i + j][2];
-			avgMinTemp[i] += tDataArr[1200 + 12 * i + j][3];
+			avgMinTemp[i] += tDataArr[1200 + 12 * i + j][4];
 		}
 		avgTempArr[i] /= 12;
 		avgMaxTemp[i] /= 12;
@@ -268,10 +268,13 @@ void Q8AverageTemp(float tDataArr[][8]) {
 //Question 9
 void Q9multiPlotCalc(float tDataArr[][8], char dArr[][11])
 {
-	for (short i = 1212;strncmp(dArr[i], "1901-01-01", 10) !=0 ; i++)
+	/*float avgTempCent[3] = { 0 }, maxTempCent[3] = { 0 }, minTempCent[3] = { 0 };
+	short count = 1;
+	for (short i = 1212;strncmp(dArr[i], "1901-01-01", 10) !=0 ; i++, count++)
 	{
-		printf("%s\n", dArr[i]);
-	}
+		avgTempCent[0] += tDataArr[i][0];
+		maxTempCent[0] = (maxTempCent[0] < tDataArr[i][2]);
+	}*/
 }
 
 
