@@ -30,7 +30,7 @@ void getTempData (char dArrStor[][11], float tDataArr[][8], FILE *gloTempData, c
 			{
 				case 0:
 					strncpy(dArrStor[i], token, 10);
-					//fprintf(out, "%s\n", dArr[i]);
+					//printf ("%s\n", dArrStor[i]);
 					break;
 				
 				default:
@@ -238,7 +238,6 @@ void Question6_GenerateGNUPlotFromData(float TemperatureData[][8], char Date[][1
 /**
  * Generates the GNUPlot data for the land average temperatures for the 19th and 20th century
 */
-
 void Question7_PlotTemperaturesFrom19To20Century(double LandAverageTemperatures[]){
 	// Loops through the land average temperatures from the 19th and 20th century 
 	printf("%lf",LandAverageTemperatures[40]);
@@ -267,35 +266,41 @@ void Q8AverageTemp(float tDataArr[][8]) {
 }
 
 //Question 9
+void Q9multiPlotCalc(float tDataArr[][8], char dArr[][11])
+{
+	for (short i = 1212;strncmp(dArr[i], "1901-01-01", 10) !=0 ; i++)
+	{
+		printf("%s\n", dArr[i]);
+	}
+}
+
 
 int main (void)
 {
-	FILE *gloTempData;
-	FILE *out; 
-	gloTempData = fopen("GlobalTemperatures.csv","r");
+#pragma region Data Input/ Declaration
+	FILE* gloTempData;
+	FILE* out;
+	gloTempData = fopen("GlobalTemperatures.csv", "r");
 	out = fopen("output.txt", "w");
-	/* tDataArr contains the numerical data in the spreadsheet stored as
-	 * floats. The array is two dimensional; [row#][column#]. Note that
-	 * the row # in the array doesn't match the spreadsheet row #.*/
-	char *token = "thing";
+	char* token = "";
 
 	// Temperature data array 
 	float TemperatureData[DataLen][8];
-	
+
 	float monthAvgTemp[12] = { 0 };
-	
+
 	/* dArr contains the date column of the spreadsheet. The dates are
 	 * preserved as strings. cTitleArr contains the column titles. The
-	 * titles are stored as strings.*/ 
-	char Dates[3200][11], *cTitleArr[9];
-	
+	 * titles are stored as strings.*/
+	char Dates[3200][11] = { 0 }, * cTitleArr[9];
+	/*for (short i = 0; i < DataLen; i++) {
+		printf("%c\n", Dates[i]);
+	}*/
 	getcTitle(cTitleArr, gloTempData, token, out);
 	getTempData(Dates, TemperatureData, gloTempData, token, out);
-	for (short i = 0; i < 3200; i++)
-	{
-		//fprintf(out, "%s\n", &Dates[i][0]);
-	}
+#pragma endregion
 
+#pragma region FinishedQuestions
 	// Question 1
 	//double LandAverageTemperatures[256];
 	//Question1_LandAverageTemperatures(TemperatureData,Dates,LandAverageTemperatures); 
@@ -324,14 +329,19 @@ int main (void)
 	//Question 6
 	//Question6_GenerateGNUPlotFromData(TemperatureData,Dates,LandAverageTemperatures);
 
+	//Question 8
+	//Q8AverageTemp(TemperatureData);
+#pragma endregion
+
+#pragma region In Progress Questions
 	// Question 7
 	//Question7_PlotTemperaturesFrom19To20Century(LandAverageTemperatures);
 
-
-	//Question 8
-	Q8AverageTemp(TemperatureData);
-
 	//Question 9
+	Q9multiPlotCalc(TemperatureData, Dates);
+#pragma endregion
+
+	
 	
 
 	fclose(gloTempData);
