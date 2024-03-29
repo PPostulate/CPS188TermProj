@@ -242,7 +242,24 @@ void Question6_GenerateGNUPlotFromData(float TemperatureData[][8], char Date[][1
 void Question7_PlotTemperaturesFrom19To20Century(double LandAverageTemperatures[]){
 	// Loops through the land average temperatures from the 19th and 20th century 
 	printf("%lf",LandAverageTemperatures[40]);
+}
 
+//Question 8
+void Q8AverageTemp(float tDataArr[][8]) {
+	float avgTempArr[165] = { 0 }, avgMaxTemp[165] = { 0 }, avgMinTemp[165] = { 0 };
+	for (short i = 0; i < 165; i++)
+	{
+		for (short j = 0; j < 12; j++)
+		{
+			avgTempArr[i] += tDataArr[1200 + 12 * i + j][0];
+			avgMaxTemp[i] += tDataArr[1200 + 12 * i + j][2];
+			avgMinTemp[i] += tDataArr[1200 + 12 * i + j][3];
+		}
+		avgTempArr[i] /= 12;
+		avgMaxTemp[i] /= 12;
+		avgMinTemp[i] /= 12;
+		printf("%-20f%-20f%f\n", avgTempArr[i], avgMaxTemp[i], avgMinTemp[i]);
+	}
 }
 
 int main (void)
@@ -274,8 +291,8 @@ int main (void)
 	}
 
 	// Question 1
-	double LandAverageTemperatures[256];
-	Question1_LandAverageTemperatures(TemperatureData,Dates,LandAverageTemperatures); 
+	//double LandAverageTemperatures[256];
+	//Question1_LandAverageTemperatures(TemperatureData,Dates,LandAverageTemperatures); 
 
 	// Question 2
 	// double Temperatures1760 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
@@ -302,8 +319,11 @@ int main (void)
 	//Question6_GenerateGNUPlotFromData(TemperatureData,Dates,LandAverageTemperatures);
 
 	// Question 7
-	Question7_PlotTemperaturesFrom19To20Century(LandAverageTemperatures);
+	//Question7_PlotTemperaturesFrom19To20Century(LandAverageTemperatures);
 
+
+	//Question 8
+	Q8AverageTemp(TemperatureData);
 
 	fclose(gloTempData);
 	
