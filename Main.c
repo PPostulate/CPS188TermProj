@@ -280,22 +280,74 @@ void Q8AverageTemp(float tDataArr[][8]) {
 	fclose(q8plot);
 }
 
-//Question 9
-void Q9multiPlotCalc(float tDataArr[][8], char dArr[][11])
+//Question 9 calculation function (Find avg min and max for a century.)
+void Q9multiPlotCalc(float tDataArr[][8], float avgTempCent[], float maxTempCent[], float minTempCent[], short i, short cent)
 {
+	avgTempCent[cent] += tDataArr[i][0];
+	maxTempCent[cent] = (maxTempCent[cent] < tDataArr[i][2]) ? tDataArr[i][2] : maxTempCent[cent];
+	minTempCent[cent] = (minTempCent[cent] > tDataArr[i][4]) ? tDataArr[i][4] : minTempCent[cent];
+}
+
+//Question 9 formatting function
+void Q9multiPlot(float tDataArr[][8], char dArr[][11])
+{
+	FILE* q9out;
+	q9out = fopen("q9data.txt", "w");
 	float avgTempCent[3] = { 0 }, maxTempCent[3] = { 0 }, minTempCent[3] = { 1000 };
 	short count = 0;
-	for (short i = 1212;strncmp(dArr[i], "1901-01-01", 10) !=0 ; i++, count++)
+	for (short i = 1212; i <= 1811; i++, count++)
 	{
-		avgTempCent[0] += tDataArr[i][0];
-		maxTempCent[0] = (maxTempCent[0] < tDataArr[i][2]) ? tDataArr[i][2] : maxTempCent[0];
-		minTempCent[0] = (minTempCent[0] > tDataArr[i][4]) ? tDataArr[i][4] : minTempCent[0];
+		Q9multiPlotCalc(tDataArr, avgTempCent, maxTempCent, minTempCent, i, 0);
 	}
 	avgTempCent[0] /= count;
+	
+	fprintf(q9out, "%-15s%-10f%-10f%f", "\"19th Century\"", avgTempCent[0], maxTempCent[0], minTempCent[0]);
+	
 	count = 0;
-	//for (short i = ; )
-	//printf("%-20f%-20f%f\n", avgTempCent[0], maxTempCent[0], minTempCent[0]);
+	for (short i = 1812; i <=  3011; i++, count++)
+	{
+		Q9multiPlotCalc(tDataArr, avgTempCent, maxTempCent, minTempCent, i, 1);
+	}
+	avgTempCent[1] /= count;
+	
+	fprintf(q9out, "\n%-15s%-10f%-10f%f", "\"20th Century\"", avgTempCent[1], maxTempCent[1], minTempCent[1]);
+	
+	count = 0;
+	for (short i = 3012; i <= DataLen - 1; i++, count++)
+	{
+		Q9multiPlotCalc(tDataArr, avgTempCent, maxTempCent, minTempCent, i, 2);
+	}
+	avgTempCent[2] /= count;
+	fprintf(q9out, "\n%-15s%-10f%-10f%f", "\"21st Century\"", avgTempCent[2], maxTempCent[2], minTempCent[2]);
 }
+
+//Question 10 average and deviation calculation
+void Q10Calc(float tDataArr[][8], float avgMonTemp[], float monTempDev[], short mon)
+{
+	for (short i = 0; i <= 15; i++)
+	{
+		avgMonTemp[mon] += tDataArr[3000 + i*12 + mon][0];
+		monTempDev[mon] += tDataArr[3000 + i*12 + mon][1];
+	}
+	avgMonTemp[mon] /= 16;
+	monTempDev[mon] /= 16;
+}
+
+
+//Question 10 format funciton
+void Q10Format(float tDataArr[][8])
+{
+	FILE* Q10Output;
+	Q10Output = fopen("q10data.txt", "w");
+	float avgMonTemp[12] = { 0 }, monTempDev[12] = { 0 };
+	char* monName[12] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+	for (short i = 0; i < 12; i++)
+	{
+		Q10Calc(tDataArr, avgMonTemp, monTempDev, i);
+		fprintf(Q10Output, "%-15s%-15f%f\n", monName[i], avgMonTemp[i], monTempDev[i]);
+	}
+}
+
 
 
 int main (void)
@@ -328,9 +380,9 @@ int main (void)
 		//double LandAverageTemperatures[256];
 		//Question1_LandAverageTemperatures(TemperatureData,Dates,LandAverageTemperatures); 
 
-		// Question 2
-		// double Temperatures1760 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
-		// printf("%lf\n",Temperatures1760); 
+	// Question 2
+	/* double Temperatures1760 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
+	 printf("%lf\n",Temperatures1760); */
 
 		// double Temperatures1800 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1800","1900");
 		// printf("%lf\n",Temperatures1800);
@@ -341,27 +393,30 @@ int main (void)
 		// double Temperatures2000 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"2000","2016");
 		// printf("%lf\n",Temperatures2000);
 
-		// Question 3
-		//Question3_CalculateMonthlyAverageTemperatures(TemperatureData, monthAvgTemp);
+	// Question 3
+	//Question3_CalculateMonthlyAverageTemperatures(TemperatureData, monthAvgTemp);
 
-
-		// Question 4 + Question 5
-		//Question4_FindHottestAndColdestMonth(TemperatureData,Dates);
-
+	// Question 4 + Question 5
+	//Question4_FindHottestAndColdestMonth(TemperatureData,Dates);
 
 		//Question 6
 		//Question6_GenerateGNUPlotFromData(TemperatureData,Dates,LandAverageTemperatures);
 
-		//Question 8
-		//Q8AverageTemp(TemperatureData);
-	#pragma endregion
+	//Question 8
+	//Q8AverageTemp(TemperatureData);
+
+	//Question 9
+	//Q9multiPlot(TemperatureData, Dates);
+
+	//Question 10
+	//Q10Format(TemperatureData);
+
+#pragma endregion
 
 	#pragma region In Progress Questions
 		// Question 7
 		Question7_PlotTemperaturesFrom19To20Century(TemperatureData,Dates);
 
-		//Question 9
-		//Q9multiPlotCalc(TemperatureData, Dates);
 
 	#pragma endregion
 
