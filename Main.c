@@ -306,6 +306,31 @@ void Q9multiPlot(float tDataArr[][8], char dArr[][11])
 	fprintf(q9out, "\n%-15s%-10f%-10f%f", "\"21st Century\"", avgTempCent[2], maxTempCent[2], minTempCent[2]);
 }
 
+//Question 10 average and deviation calculation
+void Q10Calc(float tDataArr[][8], float avgMonTemp[], float monTempDev[], short mon)
+{
+	for (short i = 0; i <= 15; i++)
+	{
+		avgMonTemp[mon] += tDataArr[3000 + i*12 + mon][0];
+		monTempDev[mon] += tDataArr[3000 + i*12 + mon][1];
+	}
+	avgMonTemp[mon] /= 16;
+	monTempDev[mon] /= 16;
+}
+
+
+//Question 10 format funciton
+void Q10Format(float tDataArr[][8])
+{
+	float avgMonTemp[12] = { 0 }, monTempDev[12] = { 0 };
+	for (short i = 0; i < 12; i++)
+	{
+		Q10Calc(tDataArr, avgMonTemp, monTempDev, i);
+		printf("%-10f%f\n", avgMonTemp[i], monTempDev[i]);
+	}
+}
+
+
 
 int main (void)
 {
@@ -372,7 +397,8 @@ int main (void)
 	// Question 7
 	//Question7_PlotTemperaturesFrom19To20Century(LandAverageTemperatures);
 
-
+	//Question 10
+	Q10Format(TemperatureData);
 
 #pragma endregion
 
