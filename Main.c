@@ -46,15 +46,15 @@ void getTempData (char dArrStor[][11], float tDataArr[][8], FILE *gloTempData, c
 
 //Question 1
 // Finds the average land temperatures between 1760 to 2015
-void Question1_LandAverageTemperatures(float TemperatureDatas[][8],char Date[][11],double *DataOut){
+void Question1_LandAverageTemperatures(float TemperatureDatas[][8],char Date[][11],double DataOut[]) {
 	// Note: Start is 120
 
 	double AverageYearlyTemperature = 0.0;
 	int LengthOfDataOut = 0; 
 	int CurrentYear = 1759;
 	int MonthsElapsed = 0; 
-
-	for(int rows = 120; rows < 3196; rows++){
+	short count = 1;
+	for(int rows = 120; rows < 3196; rows++, count++){
 		
 		double CurrentTemperature = TemperatureDatas[rows][0];
 
@@ -69,7 +69,7 @@ void Question1_LandAverageTemperatures(float TemperatureDatas[][8],char Date[][1
 			AverageYearlyTemperature /= 12.0;
 
 			// Outputs the results
-			printf("%d %s %lf\n",LengthOfDataOut,Date[rows],AverageYearlyTemperature);
+			//printf("%d %s %lf\n",LengthOfDataOut,Date[rows],AverageYearlyTemperature);
 			DataOut[LengthOfDataOut] = AverageYearlyTemperature;
 
 			// Increments the length of the data out
@@ -78,7 +78,8 @@ void Question1_LandAverageTemperatures(float TemperatureDatas[][8],char Date[][1
 			// Reset
 			AverageYearlyTemperature = 0.0;
 		}
-	} 
+	}
+	
 
 }
 
@@ -333,6 +334,18 @@ void Q10Format(float tDataArr[][8])
 	}
 }
 
+Q11OceanLandCalc(float tDataArr[][8], float oceanLandAvgTemp[])
+{
+
+}
+
+
+//Question 11
+void Q11Format(float tDataArr[][8], double landAvgTemp[])
+{
+	float oceanLandAvgTemp[256];
+
+}
 
 
 int main (void)
@@ -362,9 +375,8 @@ int main (void)
 
 #pragma region FinishedQuestions
 	// Question 1
-	//double LandAverageTemperatures[256];
-	//Question1_LandAverageTemperatures(TemperatureData,Dates,LandAverageTemperatures); 
-
+	double LandAverageTemperatures[256];
+	Question1_LandAverageTemperatures(TemperatureData,Dates, LandAverageTemperatures); 
 	// Question 2
 	/* double Temperatures1760 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
 	 printf("%lf\n",Temperatures1760); */
@@ -380,7 +392,6 @@ int main (void)
 
 	// Question 3
 	//Question3_CalculateMonthlyAverageTemperatures(TemperatureData, monthAvgTemp);
-
 	// Question 4 + Question 5
 	//Question4_FindHottestAndColdestMonth(TemperatureData,Dates);
 
@@ -402,6 +413,8 @@ int main (void)
 	// Question 7
 	//Question7_PlotTemperaturesFrom19To20Century(LandAverageTemperatures);
 
+	//Question 11
+	//Q11Format(TemperatureData, LandAverageTemperatures);
 
 #pragma endregion
 
