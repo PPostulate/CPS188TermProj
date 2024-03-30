@@ -268,13 +268,18 @@ void Q8AverageTemp(float tDataArr[][8]) {
 //Question 9
 void Q9multiPlotCalc(float tDataArr[][8], char dArr[][11])
 {
-	/*float avgTempCent[3] = { 0 }, maxTempCent[3] = { 0 }, minTempCent[3] = { 0 };
-	short count = 1;
+	float avgTempCent[3] = { 0 }, maxTempCent[3] = { 0 }, minTempCent[3] = { 1000 };
+	short count = 0;
 	for (short i = 1212;strncmp(dArr[i], "1901-01-01", 10) !=0 ; i++, count++)
 	{
 		avgTempCent[0] += tDataArr[i][0];
-		maxTempCent[0] = (maxTempCent[0] < tDataArr[i][2]);
-	}*/
+		maxTempCent[0] = (maxTempCent[0] < tDataArr[i][2]) ? tDataArr[i][2] : maxTempCent[0];
+		minTempCent[0] = (minTempCent[0] > tDataArr[i][4]) ? tDataArr[i][4] : minTempCent[0];
+	}
+	avgTempCent[0] /= count;
+	count = 0;
+	//for (short i = ; )
+	//printf("%-20f%-20f%f\n", avgTempCent[0], maxTempCent[0], minTempCent[0]);
 }
 
 
@@ -342,6 +347,7 @@ int main (void)
 
 	//Question 9
 	Q9multiPlotCalc(TemperatureData, Dates);
+
 #pragma endregion
 
 	
