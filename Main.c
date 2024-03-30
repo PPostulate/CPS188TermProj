@@ -265,21 +265,45 @@ void Q8AverageTemp(float tDataArr[][8]) {
 	fclose(q8plot);
 }
 
-//Question 9
-void Q9multiPlotCalc(float tDataArr[][8], char dArr[][11])
+//Question 9 calculation function (Find avg min and max for a century.)
+void Q9multiPlotCalc(float tDataArr[][8], float avgTempCent[], float maxTempCent[], float minTempCent[], short i, short cent)
 {
+	avgTempCent[cent] += tDataArr[i][0];
+	maxTempCent[cent] = (maxTempCent[cent] < tDataArr[i][2]) ? tDataArr[i][2] : maxTempCent[cent];
+	minTempCent[cent] = (minTempCent[cent] > tDataArr[i][4]) ? tDataArr[i][4] : minTempCent[cent];
+}
+
+//Question 9 formatting function
+void Q9multiPlot(float tDataArr[][8], char dArr[][11])
+{
+	FILE* q9out;
+	q9out = fopen("q9data.txt", "w");
 	float avgTempCent[3] = { 0 }, maxTempCent[3] = { 0 }, minTempCent[3] = { 1000 };
 	short count = 0;
-	for (short i = 1212;strncmp(dArr[i], "1901-01-01", 10) !=0 ; i++, count++)
+	for (short i = 1212; i <= 1811; i++, count++)
 	{
-		avgTempCent[0] += tDataArr[i][0];
-		maxTempCent[0] = (maxTempCent[0] < tDataArr[i][2]) ? tDataArr[i][2] : maxTempCent[0];
-		minTempCent[0] = (minTempCent[0] > tDataArr[i][4]) ? tDataArr[i][4] : minTempCent[0];
+		Q9multiPlotCalc(tDataArr, avgTempCent, maxTempCent, minTempCent, i, 0);
 	}
 	avgTempCent[0] /= count;
+	
+	fprintf(q9out, "%-15s%-10f%-10f%f", "\"19th Century\"", avgTempCent[0], maxTempCent[0], minTempCent[0]);
+	
 	count = 0;
-	//for (short i = ; )
-	//printf("%-20f%-20f%f\n", avgTempCent[0], maxTempCent[0], minTempCent[0]);
+	for (short i = 1812; i <=  3011; i++, count++)
+	{
+		Q9multiPlotCalc(tDataArr, avgTempCent, maxTempCent, minTempCent, i, 1);
+	}
+	avgTempCent[1] /= count;
+	
+	fprintf(q9out, "\n%-15s%-10f%-10f%f", "\"20th Century\"", avgTempCent[1], maxTempCent[1], minTempCent[1]);
+	
+	count = 0;
+	for (short i = 3012; i <= DataLen - 1; i++, count++)
+	{
+		Q9multiPlotCalc(tDataArr, avgTempCent, maxTempCent, minTempCent, i, 2);
+	}
+	avgTempCent[2] /= count;
+	fprintf(q9out, "\n%-15s%-10f%-10f%f", "\"21st Century\"", avgTempCent[2], maxTempCent[2], minTempCent[2]);
 }
 
 
@@ -339,14 +363,16 @@ int main (void)
 
 	//Question 8
 	//Q8AverageTemp(TemperatureData);
+
+	//Question 9
+	//Q9multiPlot(TemperatureData, Dates);
 #pragma endregion
 
 #pragma region In Progress Questions
 	// Question 7
 	//Question7_PlotTemperaturesFrom19To20Century(LandAverageTemperatures);
 
-	//Question 9
-	Q9multiPlotCalc(TemperatureData, Dates);
+
 
 #pragma endregion
 
