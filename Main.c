@@ -69,7 +69,7 @@ void Question1_LandAverageTemperatures(float TemperatureDatas[][8],char Date[][1
 			AverageYearlyTemperature /= 12.0;
 
 			// Outputs the results
-			//printf("%d %s %lf\n",LengthOfDataOut,Date[rows],AverageYearlyTemperature);
+			printf("%d %s %lf\n",LengthOfDataOut,Date[rows],AverageYearlyTemperature);
 			DataOut[LengthOfDataOut] = AverageYearlyTemperature;
 
 			// Increments the length of the data out
@@ -366,8 +366,15 @@ void Q11OceanLandCalc(float tDataArr[][8], float oceanLandAvgTemp[256])
 //Question 11
 void Q11Format(float tDataArr[][8], double landAvgTemp[])
 {
+	FILE* q11out;
+	q11out = fopen("q11data.txt", "w");
 	float oceanLandAvgTemp[256] = { 0 };
 	Q11OceanLandCalc(tDataArr, oceanLandAvgTemp);
+	
+	for (short i = 0; i < 2015 - 1849; i++)
+	{
+		fprintf(q11out, "%-10hd%-10f%f\n", i+1850, landAvgTemp[i+ 1850-1760], oceanLandAvgTemp[i]);
+	}
 }
 
 
@@ -441,7 +448,6 @@ int main (void)
 
 	#pragma endregion
 
-	
 	
 
 	fclose(gloTempData);
