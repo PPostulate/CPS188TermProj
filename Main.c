@@ -69,7 +69,7 @@ void Question1_LandAverageTemperatures(float TemperatureDatas[][8],char Date[][1
 			AverageYearlyTemperature /= 12.0;
 
 			// Outputs the results
-			//printf("%d %s %lf\n",LengthOfDataOut,Date[rows],AverageYearlyTemperature);
+			printf("%d %s %lf\n",LengthOfDataOut,Date[rows],AverageYearlyTemperature);
 			DataOut[LengthOfDataOut] = AverageYearlyTemperature;
 
 			// Increments the length of the data out
@@ -239,22 +239,40 @@ void Question6_GenerateGNUPlotFromData(float TemperatureData[][8], char Date[][1
 /**
  * Generates the GNUPlot data for the land average temperatures for the 19th and 20th century
 */
-void Question7_PlotTemperaturesFrom19To20Century(float LandAverageTemperatures[][8], char Dates[][11]){
+void Question7_PlotTemperaturesFrom19To20Century(double LandAverageTemperatures[], char Dates[][11]){
 	// Loops through the land average temperatures from the 19th and 20th century
 
-	// Start Index for 19th century is 612 
-	// End Index for 19th century is 1811
-	for(int i = 612; i <= 1811; i++){
-		printf("%d %s %f\n",i,Dates[i],LandAverageTemperatures[i][0]);
+	// Start Index for 19th century is 41
+	// End Index for 19th century is 140
+	
+	FILE *GNUPlotData = fopen("Question_7_Data.txt","w");
+
+	// Combines the 19th and 20th century data into one file 
+	float CombinedTemperatureData[1200][8];
+	char CombinedDates[1200][11];
+
+	// Calculates the land average temperatures for the 19th century
+	for(int i = 41; i <= 140; i++){
+		CombinedTemperatureData[i - 41][0] = LandAverageTemperatures[i];
+		//printf("%d %s %f\n",i,Dates[i],LandAverageTemperatures[i][0]);
 	}
 
-
-	// Start Index for the 20th century is 1812
-	// End Index for the 20th century is 3011
-
-	for(int i = 1812; i <= 3011; i++){
-		printf("%d %s %f\n",i,Dates[i],LandAverageTemperatures[i][0]);
+	// Start Index for the 20th century is 141
+	// End Index for the 20th century is 240
+	for(int i = 141; i <= 240; i++){
+		CombinedTemperatureData[i - 141][1] = LandAverageTemperatures[i];
+		//printf("%d %s %f\n",i,Dates[i],LandAverageTemperatures[i][0]);
 	}
+
+	printf("NEW STUFF HERE \n");
+	fprintf(GNUPlotData,"#Year 19th Century  20th Century\n");
+	// Loops through all the merged data and reads it into a file 
+	for(int i = 0; i < 100; i++){
+		fprintf(GNUPlotData,"%d %f %f\n",i+1,CombinedTemperatureData[i][0],CombinedTemperatureData[i][1]);
+		printf("%d %f %f\n",i+1,CombinedTemperatureData[i][0],CombinedTemperatureData[i][1]);
+	}
+
+	fclose(GNUPlotData);
 
 	//printf("%f",LandAverageTemperatures[3011][0]);
 }
@@ -388,10 +406,11 @@ int main (void)
 		getTempData(Dates, TemperatureData, gloTempData, token, out);
 	#pragma endregion
 
-#pragma region FinishedQuestions
+	#pragma region FinishedQuestions
 	// Question 1
 	double LandAverageTemperatures[256];
-	Question1_LandAverageTemperatures(TemperatureData,Dates, LandAverageTemperatures); 
+	Question1_LandAverageTemperatures(TemperatureData,Dates, LandAverageTemperatures);
+
 	// Question 2
 	/* double Temperatures1760 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
 	 printf("%lf\n",Temperatures1760); */
@@ -426,7 +445,7 @@ int main (void)
 
 	#pragma region In Progress Questions
 		// Question 7
-		Question7_PlotTemperaturesFrom19To20Century(TemperatureData,Dates);
+		Question7_PlotTemperaturesFrom19To20Century(LandAverageTemperatures,Dates);
 
 	//Question 11
 	//Q11Format(TemperatureData, LandAverageTemperatures);
