@@ -402,12 +402,20 @@ void Q10Format(float tDataArr[][8])
 	}
 }
 
+/*Question 11 function to find the yearly average of the ocean & land average
+* temperatures*/
 void Q11OceanLandCalc(float tDataArr[][8], float oceanLandAvgTemp[256])
 {
+	/*Outer loop to iterate once every year.i increases by twelve each iteration.
+	* j increases by one for the index of the average array.*/
 	for (short i = 1200, j = 0; i < DataLen; i += 12, j++)
 	{
+		//Nested loop to find the sum of the temperatures for a given year.
 		for (short k = 0; k < 12; k++)
 		{
+			/*Index of tDataArr is determined based on the index of i which increases by
+			* twelve each loop. k iterates once each time of the inner loop which gets 
+			* through all twelve months of the year. */
 			oceanLandAvgTemp[j] += tDataArr[i + k][6];
 		}
 		oceanLandAvgTemp[j] /= 12;
@@ -416,16 +424,19 @@ void Q11OceanLandCalc(float tDataArr[][8], float oceanLandAvgTemp[256])
 }
 
 
-//Question 11
+//Question 11 format function
 void Q11Format(float tDataArr[][8], double landAvgTemp[])
 {
 	FILE* q11out;
 	q11out = fopen("q11data.txt", "w");
+	//Declare a array for the yearly average temperatures of the land and ocean average temperatures.
 	float oceanLandAvgTemp[256] = { 0 };
+	//Function call to determine the averages for oceanLandAvgTemp.
 	Q11OceanLandCalc(tDataArr, oceanLandAvgTemp);
 	
 	for (short i = 0; i < 2015 - 1849; i++)
 	{
+		//Output year, yearly land temp, and yearly ocean & land temp.
 		fprintf(q11out, "%-10hd%-10f%f\n", i+1850, landAvgTemp[i+ 1850-1760], oceanLandAvgTemp[i]);
 	}
 }
