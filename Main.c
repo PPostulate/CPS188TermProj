@@ -4,40 +4,55 @@
 #include <math.h>
 #define DataLen 3192
 
-
+//Function to get the column header values.
 void getcTitle (char *cTitleArr[], FILE* gloTempData, char *token, FILE *out)
 {
 	char cTitle[300];
+	//Gets the column headers as one string.
 	fgets(cTitle, 300, gloTempData);
+	//Store the first header as a token.
 	token = strtok(cTitle, ",");
+	//Loop to put all the headers in an array.
 	for (short i = 0; token != NULL; i++)
 	{
+		//Puts the current token in the column title array.
 		cTitleArr[i] = token;
-		//fprintf(out, "%s\n", cTitleArr[i]);
+		//Move to next header.
 		token = strtok (NULL, ",");
 	}
 }
 
+//Function to get the data from the csv.
 void getTempData (char dArrStor[][11], float tDataArr[][8], FILE *gloTempData, char *token, FILE *out)
 {
+	//Decalare array to store a line of the csv
 	char line[200];
+	//Loop until the end of the csv is reached.
 	for (short i = 0; fgets(line, 200, gloTempData); i++)
 	{
+		//Places a token (region of a line seprated by a comma), into the token char*.
 		token = strtok(line, ",");
+		//Loops until all of the tokens in a line of the csv are parsed.
 		for (short j = 0; token != NULL; j++) 
 		{
+			//Switch to decide to store given value in a char array or float array.
 			switch (j)
 			{
+				/*The first token of any line is the date which is stored as a string since, it
+				* is not strictly numerical.*/
 				case 0:
+					//Date is stored in the dArrStor.
 					strncpy(dArrStor[i], token, 10);
-					//printf ("%s\n", dArrStor[i]);
 					break;
-				
+				//All other tokens in a line are stored in the tDataArr since they are all numerical.
 				default:
+					/*Index of j is offset by one since the switch case begins at one but
+					* the index of the data should start at zero.*/
 					tDataArr[i][j-1] = atof(token);
 					break;
 					
 			}
+			//Move to next token.
 			token = strtok (NULL, ",");
 		}
 	}
@@ -69,7 +84,6 @@ void Question1_LandAverageTemperatures(float TemperatureDatas[][8],char Date[][1
 			AverageYearlyTemperature /= 12.0;
 
 			// Outputs the results
-			printf("%d %s %lf\n",LengthOfDataOut,Date[rows],AverageYearlyTemperature);
 			DataOut[LengthOfDataOut] = AverageYearlyTemperature;
 
 			// Increments the length of the data out
@@ -105,7 +119,6 @@ double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], cha
 
 		// Checks if the current year is still the same and it adds the temperature for that year 
 		if((strncmp(Date[rows],EndYear,4) != 0) && StartCount == 1){
-			//printf("%s | %d\n",Date[rows],rows);
 			MonthsElapsed++; 
 			AverageYearlyTemperature += TemperatureData[rows][0];
 		}
@@ -127,7 +140,6 @@ double Question2_CalculateLandAverageTemperature(float TemperatureData[][8], cha
  * Calculates the average temperature for each month between 1900 and 2015
 */
 void Question3_CalculateMonthlyAverageTemperatures(float TemperatureData[][8], float monthAvgTemp[12]) {
-	//printf("%f\n", TemperatureData[3199][0]);
 	for (short i = 0; i < 1392; i++)
 	{
 		switch (i % 12)
@@ -176,7 +188,6 @@ void Question3_CalculateMonthlyAverageTemperatures(float TemperatureData[][8], f
 	for (short j = 0; j < 12; j++)
 	{
 		monthAvgTemp[j] = monthAvgTemp[j] / 116;
-		//printf("%f\n", monthAvgTemp[j]);
 	}
 	
 }
@@ -224,7 +235,6 @@ void Question6_GenerateGNUPlotFromData(float TemperatureData[][8], char Date[][1
 	FILE *GNUPlotData = fopen("GNUPlotData.txt","w");
 	int CurrentIndex = 0; 
 	for(int i = 120; i < 3195; i++){
-		//printf("%lf\n",CalculatedTemperatureData[i]);
 		if(i % 12 == 0 && Date[i][0] != '\0'){
 			fprintf(GNUPlotData,"%s %lf\n",Date[i + 11],AverageTemperatures[CurrentIndex]);
 			CurrentIndex += 1;
@@ -254,27 +264,25 @@ void Question7_PlotTemperaturesFrom19To20Century(double LandAverageTemperatures[
 	// Calculates the land average temperatures for the 19th century
 	for(int i = 41; i <= 140; i++){
 		CombinedTemperatureData[i - 41][0] = LandAverageTemperatures[i];
-		//printf("%d %s %f\n",i,Dates[i],LandAverageTemperatures[i][0]);
+
 	}
 
 	// Start Index for the 20th century is 141
 	// End Index for the 20th century is 240
 	for(int i = 141; i <= 240; i++){
 		CombinedTemperatureData[i - 141][1] = LandAverageTemperatures[i];
-		//printf("%d %s %f\n",i,Dates[i],LandAverageTemperatures[i][0]);
+
 	}
 
-	printf("NEW STUFF HERE \n");
 	fprintf(GNUPlotData,"#Year 19th Century  20th Century\n");
 	// Loops through all the merged data and reads it into a file 
 	for(int i = 0; i < 100; i++){
 		fprintf(GNUPlotData,"%d %f %f\n",i+1,CombinedTemperatureData[i][0],CombinedTemperatureData[i][1]);
-		printf("%d %f %f\n",i+1,CombinedTemperatureData[i][0],CombinedTemperatureData[i][1]);
 	}
 
 	fclose(GNUPlotData);
 
-	//printf("%f",LandAverageTemperatures[3011][0]);
+
 }
 
 //Question 8
@@ -419,7 +427,6 @@ void Q11OceanLandCalc(float tDataArr[][8], float oceanLandAvgTemp[256])
 			oceanLandAvgTemp[j] += tDataArr[i + k][6];
 		}
 		oceanLandAvgTemp[j] /= 12;
-		//printf("%-10hd%-10hd%f\n", i, j, oceanLandAvgTemp[j]);
 	}
 }
 
@@ -444,7 +451,7 @@ void Q11Format(float tDataArr[][8], double landAvgTemp[])
 
 int main (void)
 {
-#pragma region Data Input/ Declaration
+
 		FILE* gloTempData;
 		FILE* out;
 		gloTempData = fopen("GlobalTemperatures.csv", "r");
@@ -453,65 +460,57 @@ int main (void)
 
 		// Temperature data array 
 		float TemperatureData[DataLen][8];
-
+		// Array for the average monthly land temperatures.
 		float monthAvgTemp[12] = { 0 };
 
-		/* dArr contains the date column of the spreadsheet. The dates are
+		/* Array "Dates" contains the date column of the spreadsheet. The dates are
 		* preserved as strings. cTitleArr contains the column titles. The
 		* titles are stored as strings.*/
 		char Dates[3200][11] = { 0 }, * cTitleArr[9];
-		/*for (short i = 0; i < DataLen; i++) {
-			printf("%c\n", Dates[i]);
-		}*/
+
 		getcTitle(cTitleArr, gloTempData, token, out);
 		getTempData(Dates, TemperatureData, gloTempData, token, out);
-#pragma endregion
 
-	#pragma region FinishedQuestions
+
+
 	// Question 1
 	double LandAverageTemperatures[256];
 	Question1_LandAverageTemperatures(TemperatureData,Dates, LandAverageTemperatures);
 
 	// Question 2
-	/* double Temperatures1760 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
-	 printf("%lf\n",Temperatures1760); */
+		double Temperatures1760 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1760","1800");
 
-	// double Temperatures1800 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1800","1900");
-	// printf("%lf\n",Temperatures1800);
+		double Temperatures1800 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1800","1900");
 
-	// double Temperatures1900 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1900","2000");
-	//  printf("%lf\n",Temperatures1900);
+		double Temperatures1900 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"1900","2000");
 
-	// double Temperatures2000 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"2000","2016");
-	// printf("%lf\n",Temperatures2000);
+		double Temperatures2000 = Question2_CalculateLandAverageTemperature(TemperatureData,Dates,"2000","2016");
 
 	// Question 3
-	//Question3_CalculateMonthlyAverageTemperatures(TemperatureData, monthAvgTemp);
+	Question3_CalculateMonthlyAverageTemperatures(TemperatureData, monthAvgTemp);
+	
 	// Question 4 + Question 5
-	//Question4_FindHottestAndColdestMonth(TemperatureData,Dates);
+	Question4_FindHottestAndColdestMonth(TemperatureData,Dates);
 
 	//Question 6
-	//Question6_GenerateGNUPlotFromData(TemperatureData,Dates,LandAverageTemperatures);
+	Question6_GenerateGNUPlotFromData(TemperatureData,Dates,LandAverageTemperatures);
+
+	//Question 7
+	Question7_PlotTemperaturesFrom19To20Century(TemperatureData, Dates);
 
 	//Question 8
-	//Q8AverageTemp(TemperatureData);
+	Q8AverageTemp(TemperatureData);
 
 	//Question 9
-	//Q9multiPlot(TemperatureData);
+	Q9multiPlot(TemperatureData);
 
 	//Question 10
-	//Q10Format(TemperatureData);
-
-#pragma endregion
-
-	#pragma region In Progress Questions
-	//Question 7
-	//Question7_PlotTemperaturesFrom19To20Century(TemperatureData,Dates);
+	Q10Format(TemperatureData);
 
 	//Question 11
 	Q11Format(TemperatureData, LandAverageTemperatures);
 
-	#pragma endregion
+
 
 	
 
